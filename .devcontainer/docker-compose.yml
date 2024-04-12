@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  energy-scan:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      target: developer
+    volumes:
+      - ..:/workspace:cached,z
+    command: sleep infinity
+    environment:
+      DATABASE_URL: mysql://root:rootpassword@ispyb/ispyb_build
