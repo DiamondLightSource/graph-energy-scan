@@ -14,7 +14,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 description = "A service providing energy scan information as part of the Dimaond graph"
-dependencies = [] # Add project dependencies here, e.g. ["click", "numpy"]
+dependencies = ["uvicorn", "fastapi", "strawberry-graphql[fastapi]"]
 dynamic = ["version"]
 license.file = "LICENSE"
 readme = "README.md"
