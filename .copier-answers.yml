@@ -1,0 +1,16 @@
+# Changes here will be overwritten by Copier
+_commit: 2.1.0
+_src_path: gh:DiamondLightSource/python-copier-template
+author_email: garry.o'donnell@diamond.ac.uk
+author_name: Garry O'Donnell
+component_owner: user:enu43627
+description: A service providing energy scan information as part of the Dimaond graph
+distribution_name: graph-energy-scan
+docker: true
+docs_type: README
+git_platform: github.com
+github_org: DiamondLightSource
+package_name: graph_energy_scan
+pypi: false
+repo_name: graph-energy-scan
+type_checker: pyright

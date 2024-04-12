@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: graph-energy-scan
+  title: graph-energy-scan
+  description: A service providing energy scan information as part of the Dimaond graph
+spec:
+  type: documentation
+  lifecycle: experimental
+  owner: user:enu43627
