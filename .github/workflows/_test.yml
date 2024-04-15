@@ -5,10 +5,6 @@ on:
         type: string
         description: The version of python to install
         required: true
-      runs-on:
-        type: string
-        description: The runner to run this job on
-        required: true
     secrets:
       CODECOV_TOKEN:
         required: true
@@ -19,8 +15,18 @@ env:
 
 jobs:
   run:
-    runs-on: ${{ inputs.runs-on }}
-
+    runs-on: ubuntu-latest
+    services:
+      ispyb:
+        image: ghcr.io/diamondlightsource/ispyb-database:v3.0.0
+        ports:
+          - 3306:3306
+        env:
+          MARIADB_ROOT_PASSWORD: rootpassword
+        options: >
+          --health-cmd "/usr/local/bin/healthcheck.sh --defaults-file=/ispyb/.my.cnf --connect"
+    env:
+      DATABASE_URL: mysql+pymysql://root:rootpassword@localhost/ispyb_build
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -56,7 +62,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
-          name: ${{ inputs.python-version }}/${{ inputs.runs-on }}
+          name: ${{ inputs.python-version }}
           files: cov.xml
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

@@ -20,16 +20,10 @@ jobs:
     if: needs.check.outputs.branch-pr == ''
     strategy:
       matrix:
-        runs-on: ["ubuntu-latest"] # can add windows-latest, macos-latest
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
-        include:
-          # Include one that runs in the dev environment
-          - runs-on: "ubuntu-latest"
-            python-version: "dev"
+        python-version: ["3.11", "dev"]
       fail-fast: false
     uses: ./.github/workflows/_test.yml
     with:
-      runs-on: ${{ matrix.runs-on }}
       python-version: ${{ matrix.python-version }}
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
