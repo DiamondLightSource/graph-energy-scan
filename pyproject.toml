@@ -1,5 +1,11 @@
 [build-system]
-requires = ["setuptools>=64", "setuptools_scm[toml]>=6.2"]
+requires = [
+    "setuptools>=64",
+    "setuptools_scm[toml]>=6.2",
+    "sqlacodegen-v2",
+    "sqlalchemy",
+    "pymysql",
+]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -14,7 +20,13 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 description = "A service providing energy scan information as part of the Dimaond graph"
-dependencies = ["uvicorn", "fastapi", "strawberry-graphql[fastapi]"]
+dependencies = [
+    "uvicorn",
+    "fastapi",
+    "strawberry-graphql[fastapi]",
+    "sqlalchemy",
+    "pymysql",
+]
 dynamic = ["version"]
 license.file = "LICENSE"
 readme = "README.md"
@@ -31,6 +43,7 @@ dev = [
     "ruff",
     "tox-direct",
     "types-mock",
+    "sqlacodegen-v2",
 ]
 
 [project.scripts]
@@ -48,7 +61,8 @@ name = "Garry O'Donnell"
 write_to = "src/graph_energy_scan/_version.py"
 
 [tool.pyright]
-reportMissingImports = false # Ignore missing stubs in imported modules
+reportMissingImports = false                 # Ignore missing stubs in imported modules
+ignore = ["src/graph_energy_scan/models.py"]
 
 [tool.pytest.ini_options]
 # Run pytest with all our checkers, and don't spam us with massive tracebacks on error
@@ -100,3 +114,4 @@ lint.select = [
     "I",  # isort - https://docs.astral.sh/ruff/rules/#isort-i
     "UP", # pyupgrade - https://docs.astral.sh/ruff/rules/#pyupgrade-up
 ]
+exclude = ["src/graph_energy_scan/models.py"]

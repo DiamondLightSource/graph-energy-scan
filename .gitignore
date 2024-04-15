@@ -68,3 +68,6 @@ lockfiles/
 
 # ruff cache
 .ruff_cache/
+
+# Generated Database Models
+src/graph_energy_scan/models.py

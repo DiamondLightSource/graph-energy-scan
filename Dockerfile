@@ -14,6 +14,8 @@ ENV PATH=/venv/bin:$PATH
 
 # The build stage installs the context into the venv
 FROM developer as build
+ARG DATABASE_URL
+
 COPY . /context
 WORKDIR /context
 RUN pip install .

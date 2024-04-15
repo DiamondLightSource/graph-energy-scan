@@ -4,7 +4,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    services:
+      ispyb:
+        image: ghcr.io/diamondlightsource/ispyb-database:v3.0.0
+        ports:
+          - 3306:3306
+        env:
+          MARIADB_ROOT_PASSWORD: rootpassword
+        options: >
+          --health-cmd "/usr/local/bin/healthcheck.sh --defaults-file=/ispyb/.my.cnf --connect"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -15,6 +23,8 @@ jobs:
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: network=host
 
       - name: Log in to GitHub Docker Registry
         if: github.event_name != 'pull_request'
@@ -27,6 +37,7 @@ jobs:
       - name: Build and export to Docker local cache
         uses: docker/build-push-action@v5
         with:
+          build-args: DATABASE_URL=mysql+pymysql://root:rootpassword@localhost/ispyb_build
           context: .
           # Need load and tags so we can test it below
           load: true
@@ -50,6 +61,7 @@ jobs:
         # This does not build the image again, it will find the image in the
         # Docker cache and publish it
         with:
+          build-args: DATABASE_URL=mysql+pymysql://root:rootpassword@localhost/ispyb_build
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
