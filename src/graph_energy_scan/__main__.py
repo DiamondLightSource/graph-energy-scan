@@ -3,6 +3,7 @@ import uvicorn
 from fastapi import FastAPI
 from strawberry import Schema
 from strawberry.fastapi import GraphQLRouter
+from strawberry.printer import print_schema
 
 from graph_energy_scan.database import create_session
 from graph_energy_scan.graphql import Query
@@ -14,8 +15,25 @@ __all__ = ["main"]
 
 @click.group(invoke_without_command=True)
 @click.version_option(version=__version__)
+def main():
+    pass
+
+
+@main.command()
+@click.option("-p", "--path", type=str, help="The path to save the schema to")
+def schema(path: str):
+    schema = Schema(Query)
+    sdl = print_schema(schema)
+    if path:
+        with open(path, "w") as outfile:
+            outfile.write(sdl)
+    else:
+        print(sdl)
+
+
+@main.command()
 @click.argument("database-url", type=str)
-def main(database_url: str):
+def serve(database_url: str):
     app = FastAPI()
     schema = Schema(Query)
     create_session(database_url)
