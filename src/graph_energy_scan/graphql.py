@@ -10,7 +10,7 @@ from graph_energy_scan.database import current_session
 
 @strawberry.type
 class EnergyScan:
-    id: strawberry.ID
+    id: int
     flourecenceDetector: Optional[str]
     scanFile: Optional[str]
     choochJpeg: Optional[str]
@@ -67,14 +67,19 @@ class EnergyScan:
         )
 
 
+@strawberry.federation.type(keys=["id"])
+class Session:
+    id: int
+
+    @strawberry.field
+    async def energy_scans(self) -> list[EnergyScan]:
+        async with current_session() as session:
+            stmt = select(models.EnergyScan).where(
+                models.EnergyScan.sessionId == self.id
+            )
+            return [EnergyScan.from_model(model) for model in session.scalars(stmt)]
+
+
 @strawberry.type
 class Query:
-    @strawberry.field
-    async def test() -> list[EnergyScan]:
-        async with current_session() as session:
-            stmt = (
-                select(models.EnergyScan)
-                .order_by(models.EnergyScan.energyScanId.desc())
-                .limit(10)
-            )
-            return [EnergyScan.from_model(scan) for scan in session.scalars(stmt)]
+    pass
