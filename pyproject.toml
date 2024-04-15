@@ -21,6 +21,7 @@ classifiers = [
 ]
 description = "A service providing energy scan information as part of the Dimaond graph"
 dependencies = [
+    "click",
     "uvicorn",
     "fastapi",
     "strawberry-graphql[fastapi]",
