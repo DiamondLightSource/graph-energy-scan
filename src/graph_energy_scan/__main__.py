@@ -12,6 +12,8 @@ from . import __version__
 
 __all__ = ["main"]
 
+SCHEMA = Schema(types=[Session, EnergyScan], enable_federation_2=True)
+
 
 @click.group(invoke_without_command=True)
 @click.version_option(version=__version__)
@@ -22,8 +24,7 @@ def main():
 @main.command()
 @click.option("-p", "--path", type=str, help="The path to save the schema to")
 def schema(path: str):
-    schema = Schema(types=[Session, EnergyScan], enable_federation_2=True)
-    sdl = print_schema(schema)
+    sdl = print_schema(SCHEMA)
     if path:
         with open(path, "w") as outfile:
             outfile.write(sdl)
@@ -37,9 +38,8 @@ def schema(path: str):
 @click.option("--port", type=int, envvar="PORT", default=80)
 def serve(database_url: str, host: str, port: int):
     app = FastAPI()
-    schema = Schema(types=[Session, EnergyScan], enable_federation_2=True)
     create_session(database_url)
-    graphql_app = GraphQLRouter(schema)
+    graphql_app = GraphQLRouter(SCHEMA)
     app.include_router(graphql_app, prefix="/graphql")
     uvicorn.run(app, host=host, port=port)
 
