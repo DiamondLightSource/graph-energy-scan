@@ -32,14 +32,16 @@ def schema(path: str):
 
 
 @main.command()
-@click.argument("database-url", type=str)
-def serve(database_url: str):
+@click.option("--database-url", type=str, envvar="DATABASE_URL")
+@click.option("--host", type=str, envvar="HOST", default="0.0.0.0")
+@click.option("--port", type=int, envvar="PORT", default=80)
+def serve(database_url: str, host: str, port: int):
     app = FastAPI()
     schema = Schema(Query, types=[Session, EnergyScan], enable_federation_2=True)
     create_session(database_url)
     graphql_app = GraphQLRouter(schema)
     app.include_router(graphql_app, prefix="/graphql")
-    uvicorn.run(app)
+    uvicorn.run(app, host=host, port=port)
 
 
 if __name__ == "__main__":
