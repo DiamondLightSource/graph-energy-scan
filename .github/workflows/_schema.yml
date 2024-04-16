@@ -51,7 +51,7 @@ jobs:
         if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags') }}
         run: >
           rover subgraph publish data-gateway-n63jcf@current 
-          --routing-url http://sessions:80 
+          --routing-url http://energy-scan:80/graphql 
           --schema energy-scan.graphql
           --name energy-scan
         env:
