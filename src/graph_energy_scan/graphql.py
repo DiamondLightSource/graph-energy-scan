@@ -78,8 +78,3 @@ class Session:
                 models.EnergyScan.sessionId == self.id
             )
             return [EnergyScan.from_model(model) for model in session.scalars(stmt)]
-
-
-@strawberry.type
-class Query:
-    pass
