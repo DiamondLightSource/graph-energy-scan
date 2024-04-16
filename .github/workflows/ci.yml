@@ -43,6 +43,14 @@ jobs:
       contents: read
       packages: write
 
+  helm:
+    needs: check
+    if: needs.check.outputs.branch-pr == ''
+    uses: ./.github/workflows/_helm.yml
+    permissions:
+        contents: read
+        packages: write
+
   dist:
     needs: check
     if: needs.check.outputs.branch-pr == ''
