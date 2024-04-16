@@ -28,6 +28,13 @@ jobs:
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
+  schema:
+    needs: check
+    if: needs.check.outputs.branch-pr == ''
+    uses: ./.github/workflows/_schema.yml
+    secrets:
+      APOLLO_STUDIO: ${{ secrets.APOLLO_STUDIO }}
+
   container:
     needs: check
     if: needs.check.outputs.branch-pr == ''
