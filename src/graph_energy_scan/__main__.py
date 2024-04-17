@@ -43,8 +43,8 @@ def serve(database_url: str, host: str, port: int, otel_collector_url: str):
     setup_telemetry(otel_collector_url)
     create_session(database_url)
     app = Starlette()
-    app.add_route("/graphql", GraphQL(SCHEMA))
-    app.add_middleware(OpenTelemetryMiddleware)
+    app.add_route("/graphql", GraphQL(SCHEMA))  # type: ignore
+    app.add_middleware(OpenTelemetryMiddleware)  # type: ignore
     uvicorn.run(app, host=host, port=port)
 
 
