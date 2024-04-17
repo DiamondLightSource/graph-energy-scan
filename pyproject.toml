@@ -23,8 +23,8 @@ description = "A service providing energy scan information as part of the Dimaon
 dependencies = [
     "click",
     "uvicorn",
-    "fastapi",
-    "strawberry-graphql[fastapi]",
+    "starlette",
+    "strawberry-graphql[asgi]",
     "sqlalchemy",
     "pymysql",
     "opentelemetry-api",

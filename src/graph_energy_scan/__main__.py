@@ -1,8 +1,8 @@
 import click
 import uvicorn
-from fastapi import FastAPI
 from opentelemetry.instrumentation.asgi import OpenTelemetryMiddleware
-from strawberry.fastapi import GraphQLRouter
+from starlette.applications import Starlette
+from strawberry.asgi import GraphQL
 from strawberry.federation import Schema
 from strawberry.printer import print_schema
 
@@ -39,11 +39,10 @@ def schema(path: str):
 @click.option("--host", type=str, envvar="HOST", default="0.0.0.0")
 @click.option("--port", type=int, envvar="PORT", default=80)
 def serve(database_url: str, host: str, port: int):
-    app = FastAPI()
     setup_telemetry()
     create_session(database_url)
-    graphql_app = GraphQLRouter(SCHEMA)
-    app.include_router(graphql_app, prefix="/graphql")
+    app = Starlette()
+    app.add_route("/graphql", GraphQL(SCHEMA))
     app.add_middleware(OpenTelemetryMiddleware)
     uvicorn.run(app, host=host, port=port)
 
