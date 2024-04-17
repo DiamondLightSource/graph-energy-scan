@@ -43,6 +43,8 @@ spec:
               value: {{ include "energyScan.databaseURL" . }}
             - name: PORT
               value: "80"
+            - name: OTEL_COLLECTOR_URL
+              value: {{ tpl .Values.otelCollectorUrl . }}
           ports:
             - name: http
               containerPort: 80
