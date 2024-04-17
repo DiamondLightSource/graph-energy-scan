@@ -2,10 +2,13 @@ from datetime import datetime
 from typing import Optional
 
 import strawberry
+from opentelemetry import trace
 from sqlalchemy import select
 
 from graph_energy_scan import models
 from graph_energy_scan.database import current_session
+
+tracer = trace.get_tracer(__name__)
 
 
 @strawberry.type
@@ -72,6 +75,7 @@ class Session:
     id: int
 
     @strawberry.field
+    @tracer.start_as_current_span("session_energy_scans")
     async def energy_scans(self) -> list[EnergyScan]:
         async with current_session() as session:
             stmt = select(models.EnergyScan).where(

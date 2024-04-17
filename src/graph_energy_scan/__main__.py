@@ -1,12 +1,14 @@
 import click
 import uvicorn
 from fastapi import FastAPI
+from opentelemetry.instrumentation.asgi import OpenTelemetryMiddleware
 from strawberry.fastapi import GraphQLRouter
 from strawberry.federation import Schema
 from strawberry.printer import print_schema
 
 from graph_energy_scan.database import create_session
 from graph_energy_scan.graphql import EnergyScan, Session
+from graph_energy_scan.telemetry import setup_telemetry
 
 from . import __version__
 
@@ -38,9 +40,11 @@ def schema(path: str):
 @click.option("--port", type=int, envvar="PORT", default=80)
 def serve(database_url: str, host: str, port: int):
     app = FastAPI()
+    setup_telemetry()
     create_session(database_url)
     graphql_app = GraphQLRouter(SCHEMA)
     app.include_router(graphql_app, prefix="/graphql")
+    app.add_middleware(OpenTelemetryMiddleware)
     uvicorn.run(app, host=host, port=port)
 
 
