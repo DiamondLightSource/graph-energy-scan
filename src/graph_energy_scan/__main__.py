@@ -38,8 +38,9 @@ def schema(path: str):
 @click.option("--database-url", type=str, envvar="DATABASE_URL")
 @click.option("--host", type=str, envvar="HOST", default="0.0.0.0")
 @click.option("--port", type=int, envvar="PORT", default=80)
-def serve(database_url: str, host: str, port: int):
-    setup_telemetry()
+@click.option("--otel-collector-url", type=str, envvar="OTEL_COLLECTOR_URL")
+def serve(database_url: str, host: str, port: int, otel_collector_url: str):
+    setup_telemetry(otel_collector_url)
     create_session(database_url)
     app = Starlette()
     app.add_route("/graphql", GraphQL(SCHEMA))
