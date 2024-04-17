@@ -11,9 +11,16 @@ services:
     command: sleep infinity
     environment:
       DATABASE_URL: mysql+pymysql://root:rootpassword@ispyb/ispyb_build
+      OTEL_COLLECTOR_URL: http://jaeger:4317
 
   ispyb:
     image: ghcr.io/diamondlightsource/ispyb-database:v3.0.0
     restart: unless-stopped
     environment:
       MARIADB_ROOT_PASSWORD: rootpassword
+
+  jaeger:
+    image: docker.io/jaegertracing/all-in-one:1.52.0
+    restart: unless-stopped
+    ports:
+      - 16686:16686
