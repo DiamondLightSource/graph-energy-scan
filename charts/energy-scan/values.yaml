@@ -11,7 +11,7 @@ imagePullSecrets: []
 otelCollectorUrl: http://federation-opentelemetry-collector:4317
 
 database:
-  host: mysql+pymysql://ispyb-mariadb-galera-headless/ispyb
+  host: mysql+aiomysql://ispyb-mariadb-galera-headless/ispyb
   user: ispyb_ro
 
 replicaCount: 1
