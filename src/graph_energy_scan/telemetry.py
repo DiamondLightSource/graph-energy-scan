@@ -18,17 +18,20 @@ class FilteredSpanProcessor(SpanProcessor):
         super().__init__()
 
     def on_start(self, span: Span, parent_context: trace.Context | None = None) -> None:
-        self.inner.on_start(span, parent_context)
+        return self.inner.on_start(span, parent_context)
 
     def on_end(self, span: ReadableSpan) -> None:
-        if span.attributes.get("type") not in self.filter_types:
-            self.inner.on_end(span)
+        if (
+            span.attributes is not None
+            and span.attributes.get("type") not in self.filter_types
+        ):
+            return self.inner.on_end(span)
 
     def shutdown(self) -> None:
-        self.inner.shutdown()
+        return self.inner.shutdown()
 
     def force_flush(self, timeout_millis: int = 30000) -> bool:
-        self.inner.force_flush(timeout_millis)
+        return self.inner.force_flush(timeout_millis)
 
 
 def setup_telemetry(otel_collector_url: str):
