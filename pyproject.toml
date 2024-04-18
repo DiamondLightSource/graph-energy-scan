@@ -3,8 +3,8 @@ requires = [
     "setuptools>=64",
     "setuptools_scm[toml]>=6.2",
     "sqlacodegen-v2",
-    "sqlalchemy",
-    "pymysql",
+    "sqlalchemy[asyncio]",
+    "aiomysql",
 ]
 build-backend = "setuptools.build_meta"
 
@@ -25,7 +25,7 @@ dependencies = [
     "uvicorn",
     "starlette",
     "strawberry-graphql[asgi]",
-    "sqlalchemy",
+    "sqlalchemy[asyncio]",
     "aiomysql",
     "opentelemetry-api",
     "opentelemetry-sdk",

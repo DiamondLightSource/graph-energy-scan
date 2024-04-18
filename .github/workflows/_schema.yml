@@ -17,7 +17,7 @@ jobs:
         options: >
           --health-cmd "/usr/local/bin/healthcheck.sh --defaults-file=/ispyb/.my.cnf --connect"
     env:
-      DATABASE_URL: mysql+pymysql://root:rootpassword@localhost/ispyb_build
+      DATABASE_URL: mysql+aiomysql://root:rootpassword@localhost/ispyb_build
     steps:
       - name: Checkout
         uses: actions/checkout@v4
