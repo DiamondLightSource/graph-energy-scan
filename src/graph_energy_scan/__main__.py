@@ -7,14 +7,14 @@ from strawberry.federation import Schema
 from strawberry.printer import print_schema
 
 from graph_energy_scan.database import create_session
-from graph_energy_scan.graphql import EnergyScan, Session
+from graph_energy_scan.graphql import EnergyScan, Query, Session
 from graph_energy_scan.telemetry import setup_telemetry
 
 from . import __version__
 
 __all__ = ["main"]
 
-SCHEMA = Schema(types=[Session, EnergyScan], enable_federation_2=True)
+SCHEMA = Schema(Query, types=[Session, EnergyScan], enable_federation_2=True)
 
 
 @click.group(invoke_without_command=True)

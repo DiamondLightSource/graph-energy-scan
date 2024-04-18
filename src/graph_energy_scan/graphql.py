@@ -81,4 +81,6 @@ class Session:
             stmt = select(models.EnergyScan).where(
                 models.EnergyScan.sessionId == self.id
             )
-            return [EnergyScan.from_model(model) for model in session.scalars(stmt)]
+            return [
+                EnergyScan.from_model(model) for model in await session.scalars(stmt)
+            ]

@@ -26,7 +26,7 @@ dependencies = [
     "starlette",
     "strawberry-graphql[asgi]",
     "sqlalchemy",
-    "pymysql",
+    "aiomysql",
     "opentelemetry-api",
     "opentelemetry-sdk",
     "opentelemetry-semantic-conventions",

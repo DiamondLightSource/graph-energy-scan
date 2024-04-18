@@ -10,7 +10,7 @@ services:
       - ..:/workspace:cached,z
     command: sleep infinity
     environment:
-      DATABASE_URL: mysql+pymysql://root:rootpassword@ispyb/ispyb_build
+      DATABASE_URL: mysql+aiomysql://root:rootpassword@ispyb/ispyb_build
       OTEL_COLLECTOR_URL: http://jaeger:4317
 
   ispyb:
