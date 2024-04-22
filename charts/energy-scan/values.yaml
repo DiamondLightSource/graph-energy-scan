@@ -37,4 +37,17 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity: {}
+affinity:
+  podAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+            - key: app.kubernetes.io/instance
+              operator: In
+              values:
+                - ispyb
+            - key: app.kubernetes.io/name
+              operator: In
+              values:
+                - mariadb-galera
+        topologyKey: kubernetes.io/hostname
