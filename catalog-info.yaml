@@ -5,6 +5,6 @@ metadata:
   title: graph-energy-scan
   description: A service providing energy scan information as part of the Dimaond graph
 spec:
-  type: documentation
-  lifecycle: experimental
+  type: service
+  lifecycle: deprecated
   owner: user:enu43627
